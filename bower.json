@@ -16,7 +16,8 @@
     "angular": "1.*",
     "bootstrap": "3.*",
     "rcm-js-lib": "0.*",
-    "rcm-tinymce": "1.*"
+    "rcm-tinymce": "1.*",
+    "tinymce": "4.*"
   },
   "devDependencies": {},
   "ignore": [
