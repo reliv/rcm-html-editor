@@ -17,7 +17,7 @@
     "bootstrap": "3.*",
     "rcm-js-lib": "0.*",
     "rcm-tinymce": "1.*",
-    "tinymce": "4.*"
+    "tinymce": "^4.3"
   },
   "devDependencies": {},
   "ignore": [
