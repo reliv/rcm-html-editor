@@ -1,4 +1,4 @@
-.mce-panel {
+.mce-tinymce.mce-tinymce-inline.mce-container.mce-panel {
     width: 100% !important; /* ie8 support */
     width: calc(100% - 4px) !important;
 }
