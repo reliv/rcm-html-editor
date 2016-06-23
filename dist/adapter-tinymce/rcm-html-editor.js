@@ -37,7 +37,7 @@ var rcmHtmlEditorConfig = {
             plugins: "anchor, charmap, code, hr, image, linkwithjqueryautocomplete, paste, table, textcolor, colorpicker, rcmFileChooser",
             external_plugins: {
                 'linkwithjqueryautocomplete': '/vendor/rcm-tinymce/plugins/linkwithjqueryautocomplete/plugin.min.js',
-                'rcmFileChooser': '/vendor/rcm-tinymce/plugins/rcmFileChooser/plugin.min.js'
+                'rcmFileChooser': '/vendor/rcm-s3-file-chooser/rcm-file-chooser-tiny-mce-plugin/plugin.js'
             },
             document_base_url: rcmHtmlEditorGlobalConfig.baseUrl,
             statusbar: false,
@@ -95,7 +95,7 @@ var rcmHtmlEditorConfig = {
             plugins: "anchor, charmap, code, hr, image, linkwithjqueryautocomplete, paste, table, textcolor, colorpicker, rcmFileChooser",
             external_plugins: {
                 'linkwithjqueryautocomplete': '/vendor/rcm-tinymce/plugins/linkwithjqueryautocomplete/plugin.min.js',
-                'rcmFileChooser': '/vendor/rcm-tinymce/plugins/rcmFileChooser/plugin.min.js'
+                'rcmFileChooser': '/vendor/rcm-s3-file-chooser/rcm-file-chooser-tiny-mce-plugin/plugin.js'
             },
             document_base_url: rcmHtmlEditorGlobalConfig.baseUrl,
             statusbar: false,
@@ -127,7 +127,7 @@ var rcmHtmlEditorConfig = {
             plugins: "anchor, charmap, code, hr, image, linkwithjqueryautocomplete, paste, table, rcmFileChooser",
             external_plugins: {
                 'linkwithjqueryautocomplete': '/vendor/rcm-tinymce/plugins/linkwithjqueryautocomplete/plugin.min.js',
-                'rcmFileChooser': '/vendor/rcm-tinymce/plugins/rcmFileChooser/plugin.min.js',
+                'rcmFileChooser': '/vendor/rcm-s3-file-chooser/rcm-file-chooser-tiny-mce-plugin/plugin.js'
             },
             document_base_url: rcmHtmlEditorGlobalConfig.baseUrl,
             statusbar: false,
