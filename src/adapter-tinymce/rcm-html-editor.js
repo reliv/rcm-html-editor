@@ -119,7 +119,7 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
      * getEditorInstance
      * @returns {*}
      */
-    self.getEditorInstance = function(){
+    self.getEditorInstance = function () {
 
         return tinymce.get(self.id);
     };
@@ -311,7 +311,7 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
                 var editorInstance = self.getEditorInstance();
 
                 if (editorInstance) {
-                    editorInstance.setContent(self.ngModel.$viewValue || self.getElmValue(), {format : 'raw'});
+                    editorInstance.setContent(self.ngModel.$viewValue || self.getElmValue(), {format: 'raw'});
                 } else {
                     // Should not be required, was extra garbage cleanup
                     // self.destroy('editorInstance not found')
@@ -343,6 +343,7 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
     self.destroy = function (msg) {
 
         var editorInstance = self.getEditorInstance();
+        console.log(editorInstance);
         if (editorInstance) {
             self.fixEmptyEditorInstance(editorInstance);
             editorInstance.remove();
@@ -370,17 +371,31 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
      */
     self.fixEmptyEditorInstance = function (editorInstance) {
 
-        if(!editorInstance.dom) {
-            editorInstance.dom = {};
+        var fakeElm = jQuery('<span></span>');
+
+        if (!editorInstance.bodyElement) {
+
+            editorInstance.bodyElement = fakeElm;
         }
 
-        if(!editorInstance.dom.unbind) {
-            editorInstance.dom.unbind = function () {
-                
+        if (!editorInstance.getDoc) {
+
+            editorInstance.getDoc = function () {
+                return {body: fakeElm}
             };
         }
 
-        if(!editorInstance.getBody) {
+        if (!editorInstance.dom) {
+            editorInstance.dom = {};
+        }
+
+        if (!editorInstance.dom.unbind) {
+            editorInstance.dom.unbind = function () {
+
+            };
+        }
+
+        if (!editorInstance.getBody) {
             editorInstance.getBody = function () {
 
             };
