@@ -343,7 +343,7 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
     self.destroy = function (msg) {
 
         var editorInstance = self.getEditorInstance();
-
+console.log(editorInstance);
         if (editorInstance) {
 
             editorInstance.remove();
