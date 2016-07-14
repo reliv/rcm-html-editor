@@ -400,5 +400,13 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
 
             };
         }
+
+        if (!editorInstance._selectionOverrides) {
+            editorInstance._selectionOverrides = {
+                destroy: function () {
+
+                }
+            };
+        }
     }
 };
