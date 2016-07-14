@@ -579,8 +579,8 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
 
         var editorInstance = self.getEditorInstance();
         console.log(editorInstance);
-        if (editorInstance) {
-            self.fixEmptyEditorInstance(editorInstance);
+        if (editorInstance && editorInstance.dom) {
+            //self.fixEmptyEditorInstance(editorInstance);
             editorInstance.remove();
         }
 
