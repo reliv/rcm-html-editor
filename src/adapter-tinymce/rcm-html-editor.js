@@ -343,9 +343,8 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
     self.destroy = function (msg) {
 
         var editorInstance = self.getEditorInstance();
-        console.log(editorInstance);
+        // @todo editorInstance.dom is a hack to fix issues where dom is gone, not sure what the impact is
         if (editorInstance && editorInstance.dom) {
-            //self.fixEmptyEditorInstance(editorInstance);
             editorInstance.remove();
         }
 
@@ -364,49 +363,4 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
 
         return (tinyInstance);
     };
-
-    /**
-     * A hack to fix issues where dom is gone
-     * @param editorInstance
-     */
-    self.fixEmptyEditorInstance = function (editorInstance) {
-
-        var fakeElm = jQuery('<span></span>');
-
-        if (!editorInstance.bodyElement) {
-
-            editorInstance.bodyElement = fakeElm;
-        }
-
-        if (!editorInstance.getDoc) {
-
-            editorInstance.getDoc = function () {
-                return {body: fakeElm}
-            };
-        }
-
-        if (!editorInstance.dom) {
-            editorInstance.dom = {};
-        }
-
-        if (!editorInstance.dom.unbind) {
-            editorInstance.dom.unbind = function () {
-
-            };
-        }
-
-        if (!editorInstance.getBody) {
-            editorInstance.getBody = function () {
-
-            };
-        }
-
-        if (!editorInstance._selectionOverrides) {
-            editorInstance._selectionOverrides = {
-                destroy: function () {
-
-                }
-            };
-        }
-    }
 };
