@@ -578,9 +578,8 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
     self.destroy = function (msg) {
 
         var editorInstance = self.getEditorInstance();
-console.log(editorInstance);
         if (editorInstance) {
-
+            self.fixEmptyEditorInstance(editorInstance);
             editorInstance.remove();
         }
 
@@ -599,6 +598,23 @@ console.log(editorInstance);
 
         return (tinyInstance);
     };
+
+    /**
+     * A hack to fix issues where dom is gone
+     * @param editorInstance
+     */
+    self.fixEmptyEditorInstance = function (editorInstance) {
+
+        if(!editorInstance.dom) {
+            editorInstance.dom = {};
+        }
+
+        if(!editorInstance.dom.unbind) {
+            editorInstance.dom.unbind = function () {
+                
+            };
+        }
+    }
 };
 
 /**
