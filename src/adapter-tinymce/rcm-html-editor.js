@@ -379,5 +379,11 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
                 
             };
         }
+
+        if(!editorInstance.getBody) {
+            editorInstance.getBody = function () {
+
+            };
+        }
     }
 };
