@@ -106,7 +106,7 @@ var RcmHtmlEditorService = function (eventManager) {
         delete self.editors[id];
 
         // In case delete did not work
-        if(self.editors[id]){
+        if (self.editors[id]) {
 
             self.editors[id] = undefined;
         }
@@ -247,6 +247,7 @@ var RcmHtmlEditorService = function (eventManager) {
         }
     );
 };
+
 /**
  * Angular JS module used to shoe HTML editor and toolbar on a page
  * @require:
@@ -256,152 +257,152 @@ var RcmHtmlEditorService = function (eventManager) {
 angular.module('RcmHtmlEditor', [])
 
     .factory(
-    'rcmHtmlEditorConfig',
-    function () {
-
-        return rcmHtmlEditorConfig;
-    }
-)
-    .factory(
-    'rcmHtmlEditorEventManager',
-    [
-        function () {
-            return new RcmHtmlEditorEventManager();
-        }
-    ]
-)
-    .factory(
-    'rcmHtmlEditorService',
-    [
-        'rcmHtmlEditorEventManager',
-        function (rcmHtmlEditorEventManager) {
-
-            return new RcmHtmlEditorService(rcmHtmlEditorEventManager);
-        }
-    ]
-)
-    .factory(
-    'htmlEditorOptions',
-    [
         'rcmHtmlEditorConfig',
-        function (rcmHtmlEditorConfig) {
-
-            return new RcmHtmlEditorOptions(rcmHtmlEditorConfig);
-        }
-    ]
-)
-    .factory(
-    'guid',
-    [
         function () {
 
-            return rcmHtmlEditorGuid.generate;
+            return rcmHtmlEditorConfig;
         }
-    ]
-)
+    )
     .factory(
-    'rcmHtmlEditorFactory',
-    [
-        'RcmHtmlEditor',
+        'rcmHtmlEditorEventManager',
+        [
+            function () {
+                return new RcmHtmlEditorEventManager();
+            }
+        ]
+    )
+    .factory(
         'rcmHtmlEditorService',
-        function (RcmHtmlEditor, rcmHtmlEditorService) {
+        [
+            'rcmHtmlEditorEventManager',
+            function (rcmHtmlEditorEventManager) {
 
-            var self = this;
-
-            self.build = function (id, scope, elm, attrs, ngModel, settings) {
-
-                if (typeof rcmHtmlEditorService.editors[id] == 'object') {
-                    // @todo console.warn('Tried to build the same RcmHtmlEditor more than once for editor id: ' + id);
-                    return;
-                }
-
-                rcmHtmlEditorService.editors[id] = new RcmHtmlEditor(
-                    id,
-                    rcmHtmlEditorService
-                );
-
-                // this is to hide the default toolbar before init
-                rcmHtmlEditorService.loading(id, true, 'rcmHtmlEditorInit');
-
-                rcmHtmlEditorService.editors[id].init(
-                    scope,
-                    elm,
-                    attrs,
-                    ngModel,
-                    settings
-                );
-
-            };
-
-            self.destroy = function (id) {
-
-                if (typeof rcmHtmlEditorService.editors[id] == 'object') {
-
-                    rcmHtmlEditorService.editors[id].destroy();
-                }
-            };
-
-            return self;
-        }
-    ]
-)
+                return new RcmHtmlEditorService(rcmHtmlEditorEventManager);
+            }
+        ]
+    )
     .factory(
-    'RcmHtmlEditor',
-    [
-        'rcmHtmlEditorService',
-        function (rcmHtmlEditorService) {
-
-            return RcmHtmlEditor;
-        }
-    ]
-)
-    .factory(
-    'rcmHtmlEditorInit',
-    [
-        'guid',
         'htmlEditorOptions',
-        'rcmHtmlEditorService',
-        'rcmHtmlEditorFactory',
-        function (guid, htmlEditorOptions, rcmHtmlEditorService, rcmHtmlEditorFactory) {
+        [
+            'rcmHtmlEditorConfig',
+            function (rcmHtmlEditorConfig) {
 
-            return function (scope, elm, attrs, ngModel, config) {
-
-                // generate an ID if not present
-                if (!attrs.id) {
-                    attrs.$set('id', guid());
-                }
-
-                var id = attrs.id;
-
-                // get settings from attr or config
-                var settings = htmlEditorOptions.buildHtmlOptions(
-                    id,
-                    scope,
-                    attrs,
-                    config
-                );
-
-                rcmHtmlEditorFactory.build(id, scope, elm, attrs, ngModel, settings);
+                return new RcmHtmlEditorOptions(rcmHtmlEditorConfig);
             }
-        }
-    ]
-)
+        ]
+    )
     .factory(
-    'rcmHtmlEditorDestroy',
-    [
-        'rcmHtmlEditorService',
+        'guid',
+        [
+            function () {
+
+                return rcmHtmlEditorGuid.generate;
+            }
+        ]
+    )
+    .factory(
         'rcmHtmlEditorFactory',
-        function (rcmHtmlEditorService, rcmHtmlEditorFactory) {
+        [
+            'RcmHtmlEditor',
+            'rcmHtmlEditorService',
+            function (RcmHtmlEditor, rcmHtmlEditorService) {
 
-            return function (id) {
+                var self = this;
 
-                if (id) {
-                    rcmHtmlEditorFactory.destroy(id);
+                self.build = function (id, scope, elm, attrs, ngModel, settings) {
+
+                    if (typeof rcmHtmlEditorService.editors[id] == 'object') {
+                        // @todo console.warn('Tried to build the same RcmHtmlEditor more than once for editor id: ' + id);
+                        return;
+                    }
+
+                    rcmHtmlEditorService.editors[id] = new RcmHtmlEditor(
+                        id,
+                        rcmHtmlEditorService
+                    );
+
+                    // this is to hide the default toolbar before init
+                    rcmHtmlEditorService.loading(id, true, 'rcmHtmlEditorInit');
+
+                    rcmHtmlEditorService.editors[id].init(
+                        scope,
+                        elm,
+                        attrs,
+                        ngModel,
+                        settings
+                    );
+
+                };
+
+                self.destroy = function (id) {
+
+                    if (typeof rcmHtmlEditorService.editors[id] == 'object') {
+
+                        rcmHtmlEditorService.editors[id].destroy();
+                    }
+                };
+
+                return self;
+            }
+        ]
+    )
+    .factory(
+        'RcmHtmlEditor',
+        [
+            'rcmHtmlEditorService',
+            function (rcmHtmlEditorService) {
+
+                return RcmHtmlEditor;
+            }
+        ]
+    )
+    .factory(
+        'rcmHtmlEditorInit',
+        [
+            'guid',
+            'htmlEditorOptions',
+            'rcmHtmlEditorService',
+            'rcmHtmlEditorFactory',
+            function (guid, htmlEditorOptions, rcmHtmlEditorService, rcmHtmlEditorFactory) {
+
+                return function (scope, elm, attrs, ngModel, config) {
+
+                    // generate an ID if not present
+                    if (!attrs.id) {
+                        attrs.$set('id', guid());
+                    }
+
+                    var id = attrs.id;
+
+                    // get settings from attr or config
+                    var settings = htmlEditorOptions.buildHtmlOptions(
+                        id,
+                        scope,
+                        attrs,
+                        config
+                    );
+
+                    rcmHtmlEditorFactory.build(id, scope, elm, attrs, ngModel, settings);
                 }
             }
-        }
-    ]
-)
+        ]
+    )
+    .factory(
+        'rcmHtmlEditorDestroy',
+        [
+            'rcmHtmlEditorService',
+            'rcmHtmlEditorFactory',
+            function (rcmHtmlEditorService, rcmHtmlEditorFactory) {
+
+                return function (id) {
+
+                    if (id) {
+                        rcmHtmlEditorFactory.destroy(id);
+                    }
+                }
+            }
+        ]
+    )
     /*
      * rcmHtmlEdit - rcm-html-edit
      *
@@ -414,27 +415,27 @@ angular.module('RcmHtmlEditor', [])
      *  id
      */
     .directive(
-    'rcmHtmlEdit',
-    [
-        'rcmHtmlEditorInit',
-        function (rcmHtmlEditorInit) {
+        'rcmHtmlEdit',
+        [
+            'rcmHtmlEditorInit',
+            function (rcmHtmlEditorInit) {
 
-            var self = this;
+                var self = this;
 
-            self.compile = function (tElm, tAttr) {
-                return function (scope, elm, attrs, ngModel, config) {
-                    rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
+                self.compile = function (tElm, tAttr) {
+                    return function (scope, elm, attrs, ngModel, config) {
+                        rcmHtmlEditorInit(scope, elm, attrs, ngModel, config);
+                    }
+                };
+                return {
+                    compile: self.compile,
+                    priority: 10,
+                    require: '?ngModel',
+                    restrict: 'AE'
                 }
-            };
-            return {
-                compile: self.compile,
-                priority: 10,
-                require: '?ngModel',
-                restrict: 'AE'
             }
-        }
-    ]
-)
+        ]
+    )
     /*
      * rcmHtmlEditOnClick - rcm-html-edit-on-click
      *
@@ -451,75 +452,75 @@ angular.module('RcmHtmlEditor', [])
      *  id
      */
     .directive(
-    'rcmHtmlEditOnClick',
-    [
-        '$parse', 'rcmHtmlEditorInit',
-        function ($parse, rcmHtmlEditorInit) {
+        'rcmHtmlEditOnClick',
+        [
+            '$parse', 'rcmHtmlEditorInit',
+            function ($parse, rcmHtmlEditorInit) {
 
-            var self = this;
+                var self = this;
 
-            self.compile = function (tElm, tAttr) {
-                return function (scope, elm, attrs, ngModel, config) {
+                self.compile = function (tElm, tAttr) {
+                    return function (scope, elm, attrs, ngModel, config) {
 
-                    var clickElm = elm;
+                        var clickElm = elm;
 
-                    if (attrs.rcmHtmlEditOnClick) {
+                        if (attrs.rcmHtmlEditOnClick) {
 
-                        var selector = $parse(attrs.rcmHtmlEditOnClick)(scope);
+                            var selector = $parse(attrs.rcmHtmlEditOnClick)(scope);
 
-                        var parentElm = elm.parent();
+                            var parentElm = elm.parent();
 
-                        var newElm = parentElm.find(selector).first();
+                            var newElm = parentElm.find(selector).first();
 
-                        if (newElm) {
-                            clickElm = newElm;
+                            if (newElm) {
+                                clickElm = newElm;
+                            }
                         }
+
+                        clickElm.click(
+                            function () {
+
+                                rcmHtmlEditorInit(
+                                    scope,
+                                    elm,
+                                    attrs,
+                                    ngModel,
+                                    config
+                                );
+                            }
+                        );
                     }
-
-                    clickElm.click(
-                        function () {
-
-                            rcmHtmlEditorInit(
-                                scope,
-                                elm,
-                                attrs,
-                                ngModel,
-                                config
-                            );
-                        }
-                    );
+                };
+                return {
+                    compile: self.compile,
+                    priority: 10,
+                    require: '?ngModel',
+                    restrict: 'AE'
                 }
-            };
-            return {
-                compile: self.compile,
-                priority: 10,
-                require: '?ngModel',
-                restrict: 'AE'
             }
-        }
-    ]
-)
+        ]
+    )
     /*
      * htmlEditorToolbar - html-editor-toolbar
      * Example:
      * <div html-editor-toolbar></div>
      */
     .directive(
-    'htmlEditorToolbar',
-    [
-        'rcmHtmlEditorService',
-        function (rcmHtmlEditorService) {
+        'htmlEditorToolbar',
+        [
+            'rcmHtmlEditorService',
+            function (rcmHtmlEditorService) {
 
-            var toolbar = new RcmHtmlEditorToolbar(rcmHtmlEditorService);
+                var toolbar = new RcmHtmlEditorToolbar(rcmHtmlEditorService);
 
-            var directive = toolbar.getDirective();
+                var directive = toolbar.getDirective();
 
-            directive.restrict = 'AE';
+                directive.restrict = 'AE';
 
-            return directive;
-        }
-    ]
-);
+                return directive;
+            }
+        ]
+    );
 
 if (typeof rcm !== 'undefined') {
     rcm.addAngularModule(
