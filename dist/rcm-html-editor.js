@@ -113,6 +113,21 @@ var RcmHtmlEditorService = function (eventManager) {
     };
 
     /**
+     * getEditor
+     * @param id
+     * @returns {*}
+     */
+    self.getEditor = function (id) {
+
+        if (self.editors[id]) {
+
+            return self.editors[id];
+        }
+
+        return null;
+    };
+
+    /**
      * hasEditorInstance
      * @param id
      * @returns {*}
