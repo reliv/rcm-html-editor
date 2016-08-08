@@ -50,10 +50,25 @@ var RcmHtmlEditorService = function (eventManager) {
         delete self.editors[id];
 
         // In case delete did not work
-        if(self.editors[id]){
+        if (self.editors[id]) {
 
             self.editors[id] = undefined;
         }
+    };
+
+    /**
+     * getEditor
+     * @param id
+     * @returns {*}
+     */
+    self.getEditor = function (id) {
+
+        if (self.editors[id]) {
+
+            return self.editors[id];
+        }
+
+        return null;
     };
 
     /**

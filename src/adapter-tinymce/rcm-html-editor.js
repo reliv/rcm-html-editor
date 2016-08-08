@@ -18,6 +18,14 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
     self.tagName = "";
     self.initTimeout;
 
+    /**
+     * init
+     * @param scope
+     * @param elm
+     * @param attrs
+     * @param ngModel
+     * @param settings
+     */
     self.init = function (scope, elm, attrs, ngModel, settings) {
 
         self.scope = scope;
@@ -106,9 +114,20 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
      * @returns {*}
      */
     self.getElmValue = function () {
+        return self.getValue();
+    };
+
+    /**
+     * getValue
+     * @returns {*}
+     */
+    self.getValue = function () {
+
+        if (self.ngModel.$viewValue) {
+            return self.ngModel.$viewValue;
+        }
 
         if (self.isFormControl()) {
-
             return self.elm.val();
         }
 
@@ -138,12 +157,18 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
      */
     self.updateView = function () {
 
-        if (self.ngModel) {
-            var editorInstance = self.getEditorInstance();
-            self.ngModel.$setViewValue(editorInstance.getContent());
+        if (!self.ngModel) {
+            return;
         }
 
-        self.apply();
+        var editorInstance = self.getEditorInstance();
+        var content = editorInstance.getContent({format: 'raw'});
+        var currentValue = self.getValue();
+
+        if (content !== currentValue) {
+            self.ngModel.$setViewValue(content);
+            self.apply();
+        }
     };
 
     /**
@@ -184,6 +209,7 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
                 function (args) {
 
                     if (self.ngModel) {
+                        editor.setContent(self.getValue(), {format: 'raw'});
                         self.ngModel.$render();
                         self.ngModel.$setPristine();
                     }
@@ -232,16 +258,15 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
                     if (!e.initial && !e.selection) {
 
                         if (self.ngModel) {
-
                             if (self.ngModel.$viewValue !== e.content) {
                                 editor.save();
                                 self.updateView();
                             }
-                        } else {
-
-                            editor.save();
-                            self.updateView();
                         }
+                        // else {
+                        //     editor.save();
+                        //     self.updateView();
+                        // }
                     }
                 }
             );
@@ -297,43 +322,44 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
             //}
         };
 
-        setTimeout(
-            function () {
-
-                tinymce.init(self.settings);
-            }
-        );
-
-        if (self.ngModel) {
-
-            self.ngModel.$render = function () {
-
-                var editorInstance = self.getEditorInstance();
-
-                if (editorInstance) {
-                    editorInstance.setContent(self.ngModel.$viewValue || self.getElmValue(), {format: 'raw'});
-                } else {
-                    // Should not be required, was extra garbage cleanup
-                    // self.destroy('editorInstance not found')
-                }
-            };
-        }
-
         self.elm.on(
             '$destroy', function () {
-
                 self.destroy('self.elm.on $destroy');
             }
         );
 
         self.scope.$on(
             '$destroy', function () {
-
                 // this can cause issues with editors that are on the page dynamically
                 // might be caused by element being destroyed and scope is part on elm.
                 // self.destroy();
             }
         );
+
+        setTimeout(
+            function () {
+                tinymce.init(self.settings);
+            }
+        );
+    };
+
+    /**
+     * @deprecated This causes issues when $render is called more than once
+     * buildRenderer
+     */
+    self.buildRenderer = function () {
+        if (self.ngModel) {
+            self.ngModel.$render = function () {
+                var editorInstance = self.getEditorInstance();
+                if (editorInstance) {
+                    var value = self.getValue();
+                    editorInstance.setContent(value, {format: 'raw'});
+                } else {
+                    // Should not be required, was extra garbage cleanup
+                    // self.destroy('editorInstance not found')
+                }
+            };
+        }
     };
 
     /**

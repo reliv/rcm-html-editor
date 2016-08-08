@@ -1,5 +1,19 @@
 module.exports = function (grunt) {
 
+    var files = [
+        'src/rcm-html-editor-guid.js',
+        'src/rcm-html-editor-event-manager.js',
+        'src/rcm-html-editor-service.js',
+        'src/angular-rcm-html-editor.js'
+    ];
+
+    var adapterFiles = [
+        'src/adapter-tinymce/rcm-html-editor-config.js',
+        'src/adapter-tinymce/rcm-html-editor-options.js',
+        'src/adapter-tinymce/rcm-html-editor.js',
+        'src/adapter-tinymce/rcm-html-editor-toolbar.js'
+    ];
+
     // Project configuration.
     grunt.initConfig(
         {
@@ -12,18 +26,8 @@ module.exports = function (grunt) {
                         sourceMap: true
                     },
                     files: {
-                        'dist/<%= pkg.name %>.min.js': [
-                            'src/rcm-html-editor-guid.js',
-                            'src/rcm-html-editor-event-manager.js',
-                            'src/rcm-html-editor-service.js',
-                            'src/angular-rcm-html-editor.js'
-                        ],
-                        'dist/adapter-tinymce/<%= pkg.name %>.min.js': [
-                            'src/adapter-tinymce/rcm-html-editor-config.js',
-                            'src/adapter-tinymce/rcm-html-editor-options.js',
-                            'src/adapter-tinymce/rcm-html-editor.js',
-                            'src/adapter-tinymce/rcm-html-editor-toolbar.js'
-                        ]
+                        'dist/<%= pkg.name %>.min.js': files,
+                        'dist/adapter-tinymce/<%= pkg.name %>.min.js': adapterFiles
                     }
                 }
             },
@@ -54,19 +58,15 @@ module.exports = function (grunt) {
                 },
                 dist: {
                     files: {
-                        'dist/<%= pkg.name %>.js': [
-                            'src/rcm-html-editor-guid.js',
-                            'src/rcm-html-editor-event-manager.js',
-                            'src/rcm-html-editor-service.js',
-                            'src/angular-rcm-html-editor.js'
-                        ],
-                        'dist/adapter-tinymce/<%= pkg.name %>.js': [
-                            'src/adapter-tinymce/rcm-html-editor-config.js',
-                            'src/adapter-tinymce/rcm-html-editor-options.js',
-                            'src/adapter-tinymce/rcm-html-editor.js',
-                            'src/adapter-tinymce/rcm-html-editor-toolbar.js'
-                        ]
+                        'dist/<%= pkg.name %>.js': files,
+                        'dist/adapter-tinymce/<%= pkg.name %>.js': adapterFiles
                     }
+                }
+            },
+            watch: {
+                src: {
+                    files: ['src/*.js', 'src/**/*.js'],
+                    tasks: ['uglify', 'copy', 'cssmin', 'concat']
                 }
             }
         }
@@ -77,6 +77,7 @@ module.exports = function (grunt) {
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-contrib-copy');
     grunt.loadNpmTasks('grunt-contrib-concat');
+    grunt.loadNpmTasks('grunt-contrib-watch');
 
     // Default task(s).
     grunt.registerTask('default', ['uglify', 'copy', 'cssmin', 'concat']);
