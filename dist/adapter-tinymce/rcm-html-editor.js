@@ -583,17 +583,22 @@ var RcmHtmlEditor = function (id, rcmHtmlEditorService) {
      */
     self.getNgModelRender = function (originalRender) {
         return function () {
-            var editorInstance = self.getEditorInstance();
-            // NOTE: this is low level tinymce stuff and might break if tinymce changes
-            if (editorInstance && editorInstance.getBody()) {
-                var value = self.getValue();
-                editorInstance.setContent(value, {format: 'raw'});
-            } else {
-                // Should not be required, was extra garbage cleanup
-                // self.destroy('editorInstance not found')
-            }
-            originalRender();
-        }
+            setTimeout(
+                function () {
+                    var editorInstance = self.getEditorInstance();
+                    // NOTE: this is low level tinymce stuff and might break if tinymce changes
+                    if (editorInstance && editorInstance.getBody()) {
+                        var value = self.getValue();
+                        editorInstance.setContent(value, {format: 'raw'});
+                    } else {
+                        // Should not be required, was extra garbage cleanup
+                        // self.destroy('editorInstance not found')
+                    }
+                    originalRender();
+                },
+                0
+            );
+        };
     };
 
     /**
