@@ -34,7 +34,7 @@ var rcmHtmlEditorConfig = {
             language: rcmHtmlEditorGlobalConfig.language,
 
             menubar: false,
-            plugins: "anchor, charmap, code, hr, image, linkwithjqueryautocomplete, paste, table, textcolor, colorpicker, rcmFileChooser",
+            plugins: "anchor, charmap, code, hr, image, linkwithjqueryautocomplete, paste, table, textcolor, colorpicker, rcmFileChooser, lists",
             external_plugins: {
                 'linkwithjqueryautocomplete': '/vendor/rcm-tinymce/plugins/linkwithjqueryautocomplete/plugin.min.js',
                 'rcmFileChooser': '/vendor/rcm-s3-file-chooser/rcm-file-chooser-tiny-mce-plugin/plugin.js'
